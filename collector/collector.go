@@ -54,7 +54,6 @@ func getQueueStats(client *sqs.SQS, jobs <-chan string, results chan<- qStats, d
 }
 
 func getQueues() (queues map[string]*sqs.GetQueueAttributesOutput) {
-	workerCount := 20
 	sess := session.Must(session.NewSession(&aws.Config{
 		MaxRetries: aws.Int(3),
 	}))
@@ -62,6 +61,16 @@ func getQueues() (queues map[string]*sqs.GetQueueAttributesOutput) {
 	result, err := client.ListQueues(nil)
 	if err != nil {
 		log.Fatal("Error ", err)
+	}
+
+	var workerCount int
+
+	if len(result.QueueUrls) > 300 {
+		workerCount = 30
+	} else if len(result.QueueUrls) > 20 {
+		workerCount = 10
+	} else {
+		workerCount = 1
 	}
 
 	jobs := make(chan string, len(result.QueueUrls))
