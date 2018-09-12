@@ -30,8 +30,24 @@ func getQueueName(url string) (queueName string) {
 	return
 }
 
+func getQueueStats(client *sqs.SQS, url string) *sqs.GetQueueAttributesOutput {
+	params := &sqs.GetQueueAttributesInput{
+		QueueUrl: aws.String(url),
+		AttributeNames: []*string{
+			aws.String("ApproximateNumberOfMessages"),
+			aws.String("ApproximateNumberOfMessagesDelayed"),
+			aws.String("ApproximateNumberOfMessagesNotVisible"),
+		},
+	}
+
+	resp, _ := client.GetQueueAttributes(params)
+	return resp
+}
+
 func getQueues() (queues map[string]*sqs.GetQueueAttributesOutput) {
-	sess := session.Must(session.NewSession())
+	sess := session.Must(session.NewSession(&aws.Config{
+		MaxRetries: aws.Int(3),
+	}))
 	client := sqs.New(sess)
 	result, err := client.ListQueues(nil)
 	if err != nil {
@@ -44,16 +60,7 @@ func getQueues() (queues map[string]*sqs.GetQueueAttributesOutput) {
 		log.Println("Couldnt find any queues in region:", *sess.Config.Region)
 	}
 	for _, urls := range result.QueueUrls {
-		params := &sqs.GetQueueAttributesInput{
-			QueueUrl: aws.String(*urls),
-			AttributeNames: []*string{
-				aws.String("ApproximateNumberOfMessages"),
-				aws.String("ApproximateNumberOfMessagesDelayed"),
-				aws.String("ApproximateNumberOfMessagesNotVisible"),
-			},
-		}
-
-		resp, _ := client.GetQueueAttributes(params)
+		resp := getQueueStats(client, *aws.String(*urls))
 		queueName := getQueueName(*urls)
 		queues[queueName] = resp
 	}

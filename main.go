@@ -2,10 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/shokunin/sqs-exporter/collector"
 	"log"
 	"net/http"
-
-	"github.com/ashiddo11/sqs-exporter/collector"
 )
 
 func logRequest(handler http.Handler) http.Handler {
