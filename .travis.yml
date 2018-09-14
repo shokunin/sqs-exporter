@@ -3,3 +3,11 @@
 language: go
 go:
   - "1.10.1"
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  file: sqs-exporter
+  skip_cleanup: true
+  on:
+    tags: true
