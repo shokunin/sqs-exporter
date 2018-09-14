@@ -1,4 +1,4 @@
-# Simple AWS SQS exporter
+# Simple AWS SQS exporter [![Build Status](https://travis-ci.org/shokunin/sqs-exporter.svg?branch=master)
 
 A Prometheus SQS metrics exporter
 
