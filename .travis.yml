@@ -1,13 +1,10 @@
----
-
 language: go
 go:
-  - "1.10.1"
-
+- 1.10.1
 deploy:
   provider: releases
-  api_key: $GITHUB_OAUTH_TOKEN
+  api_key:
+    secure: KdYNWcMdBoLryRbGRS50lpKIdn7s8xh5of4RgbLd4OG3zWs4E/2kLsvQAaS08UWMeJQDSj8DYyFk47uITcez5pLuCDqsVVk6Jy2PwL4sCQAac5HflHLTdhd+2QDVPswCZHInzcKTOrbzwU/DL6DxGvorJetjURa/QfZn0c90jrhHixeOWKs86ywyzOely7qWZ7mex/xk6imkoFD3g470zJ3OIaYcE1iOAhnrdBL03F8i5Qt7ADFHqtPHjZxYRfHsuNcQUKyzcwATtWMHLDDea+yTpjw6QH9vdWOduWU7TylQ0Vrqc6GIOzaZjQzO0c9iayfuArDPlpZ5ZeQENzLDOKa5LvO7teLqfdJpNM3h3gOcelXzxGYjI0tt7hma0PFM6gitJ64+8aKRhN4QSmw5uhpj9CVgj/oLwdDJVUdWr3eMXO33g2+lYlilLH62ySNyf7QlBDgqKfVQiHyJdA0dVWg+m7psAnbWaCuTavmczruVw4jwm2K8nJhb+NMz1xzYo/+aQ908/bFH4snfKYDBjOIYsQNZvNXrqpRo9Sr7IhQXSZphmCvOQFm/AgHtdgHyEYUtplL8MGduuWYO5E9pVwkOsB17OVRDNTDJB1uczn0N62NvuEylHLZIFro1vF0jYLRKOoRlyKYFJp4OCwLIRrvfOlOo2NHOCdU6zOVzgOU=
   file: sqs-exporter
-  skip_cleanup: true
   on:
-    tags: true
+    repo: shokunin/sqs-exporter
