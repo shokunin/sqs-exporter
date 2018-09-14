@@ -8,3 +8,5 @@ deploy:
   file: sqs-exporter
   on:
     repo: shokunin/sqs-exporter
+    tags: true
+    all_branches: true
